@@ -12,7 +12,8 @@
   },
   "scripts": {
     "start": "npm run dev",
-    "dev": "gulp",
+    "dev": "gulp component-library",
+    "postdev": "gulp server",
     "build": "gulp build",
     "test": "gulp test",
     "test:dev": "karma start assets/test/config/karma.conf.js no-single-run",
