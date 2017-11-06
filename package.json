@@ -7,8 +7,8 @@
     "url": "https://github.com/hmrc/assets-frontend.git"
   },
   "engines": {
-    "node": ">=4.8.5",
-    "npm": ">=2.15.5"
+    "node": "=4.8.5",
+    "npm": "=2.15.5"
   },
   "scripts": {
     "start": "npm run dev",
