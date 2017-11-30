@@ -15,6 +15,8 @@
 *
 */
 
+var $ = require('jquery')
+
 var navAccount = $('.account-menu')
 var linkMenuMore = $('.account-menu__link--more')
 var menuSub = $('.subnav')
