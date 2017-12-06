@@ -16,4 +16,3 @@ gulp.task('copy:pattern-library', () => {
     .src([`${config.dest.v4}/**/*`])
     .pipe(gulp.dest(path.join(config.patternLibrary.dest, 'public')))
 })
-
