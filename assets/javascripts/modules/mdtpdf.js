@@ -28,7 +28,7 @@
         }
       } else {
         for (var key in obj) {
-          if (obj.hasOwnProperty(key)) {
+          if (Object.prototype.hasOwnProperty.call(obj, key)) {
             if (iterator.call(context, obj[key], key, obj) === {}) {
               return
             }
