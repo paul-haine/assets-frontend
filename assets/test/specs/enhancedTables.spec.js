@@ -18,6 +18,10 @@ describe('Given I have an enhanced table on the page', function () {
     objDataTable.columns().search('').draw()
   })
 
+  afterEach(function () {
+    objDataTable.destroy()
+  })
+
   it('should have both "dataTable" and "DataTable" function properties defined.', function () {
     expect(typeof objDataTable).toBe('object')
     expect($.isFunction($table.dataTable)).toBe(true)

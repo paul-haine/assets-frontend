@@ -67,7 +67,10 @@ test('changelog - verifyGitDiffs', (t) => {
       t.ok(err.message.includes('CHANGELOG.md was not updated'), 'returns an error message')
     })
 
-  t.ok(changelog.verifyGitDiffs('string').then(), 'returns a promise')
+  t.ok(changelog.verifyGitDiffs('string').then().catch(function (err) {
+    // handles the Promise rejection to avoid UnhandledPromiseRejectionWarning
+    console.log(err.message)
+  }), 'returns a promise')
 
   changelog
     .verifyGitDiffs('file1\nCHANGELOG.md\nfile')
