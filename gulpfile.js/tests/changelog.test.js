@@ -1,6 +1,5 @@
 'use strict'
 
-const endOfLine = require('os').EOL
 const test = require('tape')
 const changelog = require('../tasks/changelog')
 
@@ -17,7 +16,7 @@ test('changelog - runCommand', (t) => {
   changelog
     .runCommand('echo "test"')
     .then(function (stdout) {
-      t.equal(stdout, 'test' + endOfLine, 'should return a Promise if given a command to run')
+      t.equal(stdout, 'test\n', 'should return a Promise if given a command to run')
     })
 })
 
