@@ -17,7 +17,7 @@ gulp.task('component-library', ['clean-comp-lib', 'sass', 'images', 'browserify'
   var genCompLib
 
   if (os.platform() == 'win32') {
-    genCompLib = '.\/node_modules\.bin\/kss-node --config .\/component-lib.json'
+    genCompLib = './\node_modules/\.bin/\kss-node --config ./\component-lib.json'
   } else {
     genCompLib = './node_modules/.bin/kss-node --config component-lib.json'
   }
