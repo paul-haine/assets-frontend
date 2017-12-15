@@ -51,13 +51,13 @@ test('configGenerator - config file should be created', function (t) {
           t.true(false, 'backstop.json file should exist')
         }
         t.true(stats.isFile(), 'backstop.json file should exist')
+        removeFile(config.vrt.backstopConfig)
         t.end()
       })
     })
 })
 
 test('configGenerator - config properties should contain correct values', function (t) {
-  removeFile(config.vrt.backstopConfig)
   configGenerator(config)
     .then(getBackstopConfigData)
     .then(function (backstopConfig) {
@@ -87,6 +87,7 @@ test('configGenerator - config properties should contain correct values', functi
         firstScenario.misMatchThreshold, 0.1,
         'config "misMatchThreshold" should be 0.1'
       )
+      removeFile(config.vrt.backstopConfig)
       t.end()
     })
 })
@@ -95,19 +96,22 @@ test('configGenerator - bad template data should throw', function (t) {
   var brokenConfig = deepClone(config)
   brokenConfig.vrt.backstopConfigTemplate = testFixturesPath + 'backstop.broken.template.json'
 
-  removeFile(config.vrt.backstopConfig)
   configGenerator(brokenConfig)
     .catch(function (err) {
       t.equal(
         err.message, 'Bad data in template config',
         'bad data in template config should throw error'
       )
+      removeFile(config.vrt.backstopConfig)
       t.end()
     })
 })
 
 test('configGenerator - teardown', function (t) {
-  removeFile(config.vrt.backstopConfig)
-  t.pass('teardown complete')
-  t.end()
+  configGenerator(config)
+    .then(function (message) {
+      removeFile(config.vrt.backstopConfig)
+      t.pass('teardown complete')
+      t.end()
+    })
 })
