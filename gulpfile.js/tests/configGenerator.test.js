@@ -16,12 +16,8 @@ var config = {
   }
 }
 
-var removeFiles = function (files) {
-  return new Promise(function (resolve) {
-    files.forEach(function (file) {
-      fs.unlink(file, resolve)
-    })
-  })
+var removeFile = function (file) {
+  fs.unlink(file)
 }
 
 var getBackstopConfigData = function () {
@@ -61,10 +57,8 @@ test('configGenerator - config file should be created', function (t) {
 })
 
 test('configGenerator - config properties should contain correct values', function (t) {
-  removeFiles([config.vrt.backstopConfig])
-    .then(function () {
-      return configGenerator(config)
-    })
+  removeFile(config.vrt.backstopConfig)
+  configGenerator(config)
     .then(getBackstopConfigData)
     .then(function (backstopConfig) {
       var firstScenario = backstopConfig.scenarios[0]
@@ -101,10 +95,8 @@ test('configGenerator - bad template data should throw', function (t) {
   var brokenConfig = deepClone(config)
   brokenConfig.vrt.backstopConfigTemplate = testFixturesPath + 'backstop.broken.template.json'
 
-  removeFiles([config.vrt.backstopConfig])
-    .then(function () {
-      return configGenerator(brokenConfig)
-    })
+  removeFile(config.vrt.backstopConfig)
+  configGenerator(brokenConfig)
     .catch(function (err) {
       t.equal(
         err.message, 'Bad data in template config',
@@ -115,9 +107,7 @@ test('configGenerator - bad template data should throw', function (t) {
 })
 
 test('configGenerator - teardown', function (t) {
-  removeFiles([config.vrt.backstopConfig])
-    .then(function () {
-      t.pass('teardown complete')
-      t.end()
-    })
+  removeFile(config.vrt.backstopConfig)
+  t.pass('teardown complete')
+  t.end()
 })
