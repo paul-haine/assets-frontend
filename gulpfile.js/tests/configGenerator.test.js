@@ -16,8 +16,12 @@ var config = {
   }
 }
 
-var removeFile = function (file) {
-  fs.unlinkSync(file)
+var removeFiles = function (files) {
+  return new Promise(function (resolve) {
+    files.forEach(function (file) {
+      fs.unlink(file, resolve)
+    })
+  })
 }
 
 var getBackstopConfigData = function () {
@@ -51,14 +55,16 @@ test('configGenerator - config file should be created', function (t) {
           t.true(false, 'backstop.json file should exist')
         }
         t.true(stats.isFile(), 'backstop.json file should exist')
-        removeFile(config.vrt.backstopConfig)
         t.end()
       })
     })
 })
 
 test('configGenerator - config properties should contain correct values', function (t) {
-  configGenerator(config)
+  removeFiles([config.vrt.backstopConfig])
+    .then(function () {
+      return configGenerator(config)
+    })
     .then(getBackstopConfigData)
     .then(function (backstopConfig) {
       var firstScenario = backstopConfig.scenarios[0]
@@ -87,7 +93,6 @@ test('configGenerator - config properties should contain correct values', functi
         firstScenario.misMatchThreshold, 0.1,
         'config "misMatchThreshold" should be 0.1'
       )
-      removeFile(config.vrt.backstopConfig)
       t.end()
     })
 })
@@ -96,7 +101,10 @@ test('configGenerator - bad template data should throw', function (t) {
   var brokenConfig = deepClone(config)
   brokenConfig.vrt.backstopConfigTemplate = testFixturesPath + 'backstop.broken.template.json'
 
-  configGenerator(brokenConfig)
+  removeFiles([config.vrt.backstopConfig])
+    .then(function () {
+      return configGenerator(brokenConfig)
+    })
     .catch(function (err) {
       t.equal(
         err.message, 'Bad data in template config',
@@ -107,12 +115,9 @@ test('configGenerator - bad template data should throw', function (t) {
 })
 
 test('configGenerator - teardown', function (t) {
-  configGenerator(config)
+  removeFiles([config.vrt.backstopConfig])
     .then(function () {
-      removeFile(config.vrt.backstopConfig)
-      if (!fs.existsSync(config.vrt.backstopConfig)) {
-        t.pass('teardown complete')
-        t.end()
-      }
+      t.pass('teardown complete')
+      t.end()
     })
 })
