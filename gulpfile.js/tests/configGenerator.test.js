@@ -17,7 +17,7 @@ var config = {
 }
 
 var removeFile = function (file) {
-  fs.unlink(file)
+  fs.unlinkSync(file)
 }
 
 var getBackstopConfigData = function () {
