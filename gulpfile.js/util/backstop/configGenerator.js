@@ -31,7 +31,6 @@ module.exports = function (config) {
         reject(new Error('Bad data in template config'))
       })
       .on('finish', function () {
-        writeConfig.end()
         resolve('backstop.json created')
       })
   })
