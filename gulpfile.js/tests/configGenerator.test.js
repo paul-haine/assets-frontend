@@ -102,16 +102,17 @@ test('configGenerator - bad template data should throw', function (t) {
         err.message, 'Bad data in template config',
         'bad data in template config should throw error'
       )
-      removeFile(config.vrt.backstopConfig)
       t.end()
     })
 })
 
 test('configGenerator - teardown', function (t) {
   configGenerator(config)
-    .then(function (message) {
+    .then(function () {
       removeFile(config.vrt.backstopConfig)
-      t.pass('teardown complete')
-      t.end()
+      if (!fs.existsSync(config.vrt.backstopConfig)) {
+        t.pass('teardown complete')
+        t.end()
+      }
     })
 })
