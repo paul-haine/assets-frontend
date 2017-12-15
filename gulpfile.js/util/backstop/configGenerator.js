@@ -27,6 +27,7 @@ module.exports = function (config) {
       })
       .pipe(writeConfig)
       .on('error', function () {
+        writeConfig.end()
         reject(new Error('Bad data in template config'))
       })
       .on('finish', function () {
